@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam's Meats - Fresh Quality Meats in Khayelitsha</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        meats: {
+                            red: '#D32F2F',
+                            darkred: '#9A0007',
+                            lightred: '#FF6659',
+                            amber: '#FFB300',
+                            charcoal: '#1A1A1A',
+                            darkcard: '#242424',
+                            cream: '#FFFBF5'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D32F2F;
+            border-radius: 4px;
+        }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(26,26,26,0.6) 0%, rgba(26,26,26,0.85) 70%, rgba(26,26,26,1) 100%);
+        }
+        .glass-panel {
+            background: rgba(36, 36, 36, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .drop-zone {
+            border: 2px dashed #D32F2F;
+            transition: all 0.2s ease-in-out;
+        }
+        .drop-zone.dragover {
+            background-color: rgba(211, 47, 47, 0.15);
+            border-color: #FFB300;
+        }
+    </style>
+</head>
+<body class="bg-meats-charcoal text-gray-100 font-sans min-h-screen flex flex-col antialiased selection:bg-meats-red selection:text-white">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-zinc-800 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div id="navLogoContainer" class="w-12 h-12 rounded-full overflow-hidden border-2 border-meats-amber bg-zinc-800 flex items-center justify-center shadow-lg">
+                        <img id="navLogoImg" src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=150&q=80" alt="Sam's Meats Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <span id="navBizName" class="font-heading text-xl sm:text-2xl font-extrabold text-white tracking-wide block">SAM'S <span class="text-meats-red">MEATS</span></span>
+                        <span class="text-xs text-meats-amber font-semibold tracking-wider block uppercase">Khayelitsha Butchery</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors text-white hover:text-meats-amber hover:bg-zinc-800/60">
+                        <i class="fa-solid fa-house mr-1.5 text-xs"></i> Home
+                    </button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors text-gray-300 hover:text-meats-amber hover:bg-zinc-800/60">
+                        <i class="fa-solid fa-store mr-1.5 text-xs"></i> About Us
+                    </button>
+                    <button onclick="switchTab('services')" id="nav-services" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors text-gray-300 hover:text-meats-amber hover:bg-zinc-800/60">
+                        <i class="fa-solid fa-drumstick-bite mr-1.5 text-xs"></i> Meat Cuts & Prices
+                    </button>
+                    <button onclick="switchTab('gallery')" id="nav-gallery" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors text-gray-300 hover:text-meats-amber hover:bg-zinc-800/60">
+                        <i class="fa-solid fa-images mr-1.5 text-xs"></i> Gallery
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm transition-colors text-gray-300 hover:text-meats-amber hover:bg-zinc-800/60">
+                        <i class="fa-solid fa-location-dot mr-1.5 text-xs"></i> Contact
+                    </button>
+                    <button onclick="openAdminAuth()" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg font-medium text-sm transition-colors text-meats-amber bg-zinc-800/80 border border-meats-amber/30 hover:bg-meats-amber hover:text-zinc-900 ml-2">
+                        <i class="fa-solid fa-lock mr-1.5 text-xs"></i> Admin
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <button onclick="openAdminAuth()" class="p-2 text-meats-amber rounded-lg border border-meats-amber/30 text-xs font-semibold">
+                        <i class="fa-solid fa-lock"></i>
+                    </button>
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2.5 rounded-lg bg-zinc-800 text-gray-200 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-zinc-900/95 border-b border-zinc-800 px-4 pt-2 pb-6 space-y-2">
+            <button onclick="switchTab('home')" class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-zinc-800 border-l-4 border-meats-red">
+                <i class="fa-solid fa-house w-6 text-meats-amber"></i> Home
+            </button>
+            <button onclick="switchTab('about')" class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:bg-zinc-800">
+                <i class="fa-solid fa-store w-6 text-meats-amber"></i> About Us
+            </button>
+            <button onclick="switchTab('services')" class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:bg-zinc-800">
+                <i class="fa-solid fa-drumstick-bite w-6 text-meats-amber"></i> Meat Cuts & Prices
+            </button>
+            <button onclick="switchTab('gallery')" class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:bg-zinc-800">
+                <i class="fa-solid fa-images w-6 text-meats-amber"></i> Gallery
+            </button>
+            <button onclick="switchTab('contact')" class="w-full text-left px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:bg-zinc-800">
+                <i class="fa-solid fa-location-dot w-6 text-meats-amber"></i> Contact & Location
+            </button>
+            <button onclick="openAdminAuth()" class="w-full text-left px-4 py-3 rounded-lg text-base font-semibold text-meats-amber bg-meats-red/10 border border-meats-red/30 mt-2">
+                <i class="fa-solid fa-user-gear w-6 text-meats-amber"></i> Admin Dashboard
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- SECTION: HOME -->
+        <section id="section-home" class="tab-content transition-opacity duration-300">
+            <!-- Hero Banner -->
+            <div id="heroBanner" class="relative min-h-[85vh] flex items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80');">
+                <div class="absolute inset-0 hero-gradient"></div>
+                <div class="relative max-w-5xl mx-auto px-4 py-20 text-center z-10">
+                    <div class="inline-flex items-center space-x-2 bg-meats-red/90 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase mb-6 shadow-lg border border-red-400/30">
+                        <i class="fa-solid fa-fire text-meats-amber"></i>
+                        <span>Khayelitsha's Favorite Local Butcher</span>
+                    </div>
+                    <h1 id="heroTitle" class="font-heading text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-tight uppercase drop-shadow-lg mb-6">
+                        Fresh Quality Meats <br class="hidden sm:block"><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-yellow-500">In Khayelitsha</span>
+                    </h1>
+                    <p id="heroSubtitle" class="text-lg sm:text-2xl text-gray-200 max-w-3xl mx-auto font-light leading-relaxed mb-10 drop-shadow">
+                        Premium beef, pork, poultry, juicy boerewors & custom braai packs straight to your table. Quality you can taste at local prices!
+                    </p>
+                    
+                    <!-- Call To Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                        <a id="heroWhatsAppBtn" href="#" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg rounded-xl shadow-2xl hover:shadow-emerald-900/50 transform hover:-translate-y-0.5 transition-all">
+                            <i class="fa-brands fa-whatsapp text-2xl mr-3"></i> WhatsApp Order
+                        </a>
+                        <a id="heroCallBtn" href="tel:+27607504257" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-meats-red hover:bg-meats-darkred text-white font-bold text-lg rounded-xl shadow-2xl hover:shadow-red-900/50 transform hover:-translate-y-0.5 transition-all border border-red-500/30">
+                            <i class="fa-solid fa-phone text-xl mr-3"></i> Call Us Now
+                        </a>
+                    </div>
+
+                    <!-- Quick Info Badges -->
+                    <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 text-left max-w-4xl mx-auto">
+                        <div class="glass-panel p-4 rounded-xl border border-zinc-700/50">
+                            <i class="fa-solid fa-certificate text-meats-amber text-xl mb-1"></i>
+                            <h4 class="font-bold text-white text-sm">100% Fresh Daily</h4>
+                            <p class="text-xs text-gray-400">Hand-selected quality cuts</p>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border border-zinc-700/50">
+                            <i class="fa-solid fa-fire-flame-curved text-meats-amber text-xl mb-1"></i>
+                            <h4 class="font-bold text-white text-sm">Braai Ready Packs</h4>
+                            <p class="text-xs text-gray-400">Seasoned & vacuum sealed</p>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border border-zinc-700/50">
+                            <i class="fa-solid fa-tags text-meats-amber text-xl mb-1"></i>
+                            <h4 class="font-bold text-white text-sm">Affordable Prices</h4>
+                            <p class="text-xs text-gray-400">Best community rates</p>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl border border-zinc-700/50">
+                            <i class="fa-solid fa-truck-fast text-meats-amber text-xl mb-1"></i>
+                            <h4 class="font-bold text-white text-sm">Local Bulk Orders</h4>
+                            <p class="text-xs text-gray-400">Events, braais & catering</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Categories Highlight -->
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white uppercase tracking-tight">
+                        Our Popular <span class="text-meats-red">Meat Cuts</span>
+                    </h2>
+                    <p class="text-gray-400 text-base max-w-xl mx-auto mt-2">Check out our most requested fresh meats. Order directly on WhatsApp!</p>
+                </div>
+
+                <div id="featuredProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Dynamic Featured Items Loaded JS -->
+                </div>
+
+                <div class="text-center mt-12">
+                    <button onclick="switchTab('services')" class="inline-flex items-center space-x-2 bg-zinc-800 hover:bg-zinc-700 text-meats-amber font-semibold px-8 py-3.5 rounded-xl border border-meats-amber/30 transition-all">
+                        <span>View Full Catalog & Prices</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ABOUT -->
+        <section id="section-about" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-meats-amber font-semibold text-sm uppercase tracking-widest block mb-1">Local Pride</span>
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white uppercase">About <span class="text-meats-red">Sam's Meats</span></h2>
+                    <div class="w-20 h-1 bg-meats-red mx-auto my-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Image Container -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-meats-red to-meats-amber rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                        <div class="relative h-96 sm:h-[450px] rounded-2xl overflow-hidden bg-zinc-800 border border-zinc-700">
+                            <img id="aboutImgDisplay" src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1000&q=80" alt="Sam's Meats Store Front" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Story Text -->
+                    <div class="space-y-6">
+                        <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white">Serving Khayelitsha with Quality & Passion</h3>
+                        <p class="text-gray-300 leading-relaxed text-base">
+                            Welcome to <strong class="text-white">Sam's Meats</strong>, your trusted local butcher shop located right in the heart of Khayelitsha. We take immense pride in providing our community with top-tier, freshly butchered meats, custom braai cuts, succulent boerewors, and tender poultry.
+                        </p>
+                        <p class="text-gray-300 leading-relaxed text-base">
+                            Whether you're planning a weekend shisa nyama with family and friends, hosting a community event, or preparing everyday meals, Sam's Meats guarantees hygiene, freshness, and unbeatable prices.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-800">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-3 bg-meats-red/10 text-meats-red rounded-lg">
+                                    <i class="fa-solid fa-handshake text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white">Community First</h4>
+                                    <p class="text-xs text-gray-400">Locally owned & operated</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="p-3 bg-meats-amber/10 text-meats-amber rounded-lg">
+                                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white">Guaranteed Fresh</h4>
+                                    <p class="text-xs text-gray-400">Strict hygiene standards</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button onclick="switchTab('contact')" class="bg-meats-red hover:bg-meats-darkred text-white font-bold px-6 py-3 rounded-xl transition">
+                                <i class="fa-solid fa-map-pin mr-2"></i> Visit Our Shop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: SERVICES / PRODUCTS -->
+        <section id="section-services" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                    <div>
+                        <span class="text-meats-amber font-semibold text-sm uppercase tracking-widest block mb-1">Our Butchery Counter</span>
+                        <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white uppercase">Meats & <span class="text-meats-red">Pricing</span></h2>
+                    </div>
+                    
+                    <!-- Filter Buttons -->
+                    <div id="categoryFilters" class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                        <button onclick="filterCategory('All')" class="cat-btn active bg-meats-red text-white px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider">All Meats</button>
+                        <button onclick="filterCategory('Beef')" class="cat-btn bg-zinc-800 text-gray-300 hover:bg-zinc-700 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider">Beef</button>
+                        <button onclick="filterCategory('Braai Packs')" class="cat-btn bg-zinc-800 text-gray-300 hover:bg-zinc-700 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider">Braai Packs</button>
+                        <button onclick="filterCategory('Sausage')" class="cat-btn bg-zinc-800 text-gray-300 hover:bg-zinc-700 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider">Boerewors</button>
+                        <button onclick="filterCategory('Pork & Poultry')" class="cat-btn bg-zinc-800 text-gray-300 hover:bg-zinc-700 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider">Pork & Chicken</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="fullProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Dynamic Product Cards Injected Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: GALLERY -->
+        <section id="section-gallery" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-meats-amber font-semibold text-sm uppercase tracking-widest block mb-1">Shop Highlights</span>
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white uppercase">Photo <span class="text-meats-red">Gallery</span></h2>
+                    <p class="text-gray-400 mt-2">Take a look inside Sam's Meats shop, our fresh displays, and local braai scenes.</p>
+                </div>
+
+                <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Dynamic Gallery Photos -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal -->
+        <div id="galleryLightbox" class="fixed inset-0 z-50 bg-black/90 hidden flex items-center justify-center p-4 backdrop-blur-md">
+            <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-meats-amber z-50">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="max-w-4xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl relative">
+                <img id="lightboxImg" src="" alt="Gallery Preview" class="w-full h-full object-contain">
+                <p id="lightboxCaption" class="text-center text-sm font-medium text-gray-200 py-3 bg-zinc-900/80"></p>
+            </div>
+        </div>
+
+        <!-- SECTION: CONTACT -->
+        <section id="section-contact" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-meats-amber font-semibold text-sm uppercase tracking-widest block mb-1">Get In Touch</span>
+                    <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white uppercase">Visit <span class="text-meats-red">Sam's Meats</span></h2>
+                    <p class="text-gray-400 mt-2">Order ahead, ask for custom cuts, or drop by our Khayelitsha shop!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Phone Card -->
+                    <div class="glass-panel p-6 rounded-2xl border border-zinc-800 text-center flex flex-col items-center">
+                        <div class="w-14 h-14 bg-meats-red/20 text-meats-red rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-white mb-1">Phone Call</h3>
+                        <p class="text-gray-400 text-sm mb-4">Direct line for inquiries & orders</p>
+                        <a id="contactPhoneBtn" href="tel:+27607504257" class="text-meats-amber font-extrabold text-xl hover:underline">+27 60 750 4257</a>
+                    </div>
+
+                    <!-- WhatsApp Card -->
+                    <div class="glass-panel p-6 rounded-2xl border border-zinc-800 text-center flex flex-col items-center">
+                        <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-white mb-1">WhatsApp Chat</h3>
+                        <p class="text-gray-400 text-sm mb-4">Instant response & price quotes</p>
+                        <a id="contactWhatsAppBtn" href="#" target="_blank" class="text-emerald-400 font-extrabold text-xl hover:underline">+27 60 750 4257</a>
+                    </div>
+
+                    <!-- Location Card -->
+                    <div class="glass-panel p-6 rounded-2xl border border-zinc-800 text-center flex flex-col items-center">
+                        <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-white mb-1">Our Location</h3>
+                        <p id="contactAddressDisplay" class="text-gray-300 text-sm mb-2">Spine Road, Khayelitsha, Cape Town, 7784</p>
+                        <span class="text-xs text-meats-amber font-semibold uppercase">South Africa</span>
+                    </div>
+                </div>
+
+                <!-- Map Box -->
+                <div class="rounded-2xl overflow-hidden glass-panel border border-zinc-800 h-96 shadow-2xl relative">
+                    <iframe 
+                        title="Khayelitsha Map Location"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26438.312911138243!2d18.6601000!3d-34.0505000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc451dd4f43477%3A0xb3a8bb6bb3d5eb45!2sKhayelitsha%2C%20Cape%20Town!5e0!3m2!1sen!2sza!4v1700000000000!5m2!1sen!2sza" 
+                        class="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ADMIN DASHBOARD -->
+        <section id="section-admin" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Dashboard Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-zinc-800 mb-8 gap-4">
+                    <div>
+                        <span class="bg-meats-amber text-zinc-900 font-bold text-xs px-2.5 py-1 rounded-md uppercase">Owner Dashboard</span>
+                        <h2 class="font-heading text-3xl font-extrabold text-white mt-1">Sam's Meats <span class="text-meats-red">Admin Control</span></h2>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="resetDefaultData()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-red-400 font-semibold text-xs rounded-xl border border-red-500/20 transition">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Defaults
+                        </button>
+                        <button onclick="switchTab('home')" class="px-4 py-2 bg-meats-red hover:bg-meats-darkred text-white font-semibold text-xs rounded-xl transition">
+                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Exit Admin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Tabs Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Business Info & Image Uploader -->
+                    <div class="space-y-8">
+                        <!-- Business Details Form -->
+                        <div class="glass-panel p-6 rounded-2xl border border-zinc-800">
+                            <h3 class="font-bold text-lg text-white mb-4 flex items-center">
+                                <i class="fa-solid fa-store text-meats-amber mr-2"></i> Business Information
+                            </h3>
+                            <form id="adminBizForm" onsubmit="saveBusinessDetails(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Business Name</label>
+                                    <input type="text" id="adminBizName" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Phone Number</label>
+                                    <input type="text" id="adminPhone" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">WhatsApp Number</label>
+                                    <input type="text" id="adminWhatsApp" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Shop Address</label>
+                                    <input type="text" id="adminAddress" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Hero Subtitle</label>
+                                    <textarea id="adminHeroSubtitle" rows="2" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-meats-red hover:bg-meats-darkred text-white font-bold py-2.5 rounded-lg text-sm transition">
+                                    Save Business Details
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Main Image Uploaders -->
+                        <div class="glass-panel p-6 rounded-2xl border border-zinc-800 space-y-6">
+                            <h3 class="font-bold text-lg text-white flex items-center">
+                                <i class="fa-solid fa-image text-meats-amber mr-2"></i> Website Images
+                            </h3>
+
+                            <!-- Logo Drag & Drop -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase mb-2">Business Logo</label>
+                                <div class="drop-zone p-4 rounded-xl text-center cursor-pointer bg-zinc-900/50" id="dzLogo" onclick="triggerFileInput('fileLogo')">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-meats-amber mb-1"></i>
+                                    <p class="text-xs text-gray-300 font-medium">Click or Drag & Drop Logo Image</p>
+                                    <input type="file" id="fileLogo" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'logo')">
+                                </div>
+                            </div>
+
+                            <!-- Hero Image Drag & Drop -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase mb-2">Hero Background Image</label>
+                                <div class="drop-zone p-4 rounded-xl text-center cursor-pointer bg-zinc-900/50" id="dzHero" onclick="triggerFileInput('fileHero')">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-meats-amber mb-1"></i>
+                                    <p class="text-xs text-gray-300 font-medium">Click or Drag & Drop Hero Background</p>
+                                    <input type="file" id="fileHero" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'hero')">
+                                </div>
+                            </div>
+
+                            <!-- About Image Drag & Drop -->
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase mb-2">About Section Image</label>
+                                <div class="drop-zone p-4 rounded-xl text-center cursor-pointer bg-zinc-900/50" id="dzAbout" onclick="triggerFileInput('fileAbout')">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-meats-amber mb-1"></i>
+                                    <p class="text-xs text-gray-300 font-medium">Click or Drag & Drop About Image</p>
+                                    <input type="file" id="fileAbout" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'about')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Services & Product Manager -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Add/Edit Product Form -->
+                        <div class="glass-panel p-6 rounded-2xl border border-zinc-800">
+                            <h3 id="productFormTitle" class="font-bold text-lg text-white mb-4 flex items-center">
+                                <i class="fa-solid fa-plus-circle text-meats-amber mr-2"></i> Add New Cut / Meat Service
+                            </h3>
+                            
+                            <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4">
+                                <input type="hidden" id="prodId">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Meat / Cut Title</label>
+                                        <input type="text" id="prodTitle" placeholder="e.g. Fresh T-Bone Steak" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Category</label>
+                                        <select id="prodCategory" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                            <option value="Beef">Beef Cuts</option>
+                                            <option value="Braai Packs">Braai Packs</option>
+                                            <option value="Sausage">Boerewors & Sausage</option>
+                                            <option value="Pork & Poultry">Pork & Chicken</option>
+                                            <option value="Mutton & Lamb">Mutton & Lamb</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Price Label (ZAR)</label>
+                                        <input type="text" id="prodPrice" placeholder="e.g. R110 / kg" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Product Image</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="text" id="prodImgUrl" placeholder="Image URL or Base64" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber">
+                                            <button type="button" onclick="triggerFileInput('fileProdImg')" class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-meats-amber rounded-lg text-xs font-semibold border border-zinc-700 whitespace-nowrap">
+                                                <i class="fa-solid fa-upload"></i> Upload
+                                            </button>
+                                            <input type="file" id="fileProdImg" accept="image/*" class="hidden" onchange="handleProductImageFile(event)">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Description</label>
+                                    <textarea id="prodDesc" rows="2" placeholder="Brief description of quality, cut thickness, etc." class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-meats-amber" required></textarea>
+                                </div>
+
+                                <div class="flex space-x-3 pt-2">
+                                    <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-lg text-sm transition">
+                                        <i class="fa-solid fa-floppy-disk mr-1"></i> Save Product
+                                    </button>
+                                    <button type="button" onclick="resetProductForm()" class="bg-zinc-800 hover:bg-zinc-700 text-gray-300 font-semibold px-4 py-2.5 rounded-lg text-sm transition">
+                                        Cancel / Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Current Products List -->
+                        <div class="glass-panel p-6 rounded-2xl border border-zinc-800">
+                            <h3 class="font-bold text-lg text-white mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-list-check text-meats-amber mr-2"></i> Manage Active Cuts (<span id="prodCount">0</span>)</span>
+                            </h3>
+
+                            <div id="adminProductList" class="space-y-4 max-h-[500px] overflow-y-auto pr-1">
+                                <!-- Dynamic admin list items -->
+                            </div>
+                        </div>
+
+                        <!-- Gallery Image Upload Section -->
+                        <div class="glass-panel p-6 rounded-2xl border border-zinc-800">
+                            <h3 class="font-bold text-lg text-white mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-images text-meats-amber mr-2"></i> Upload to Gallery</span>
+                            </h3>
+                            <div class="drop-zone p-6 rounded-xl text-center cursor-pointer bg-zinc-900/50" id="dzGallery" onclick="triggerFileInput('fileGallery')">
+                                <i class="fa-solid fa-images text-3xl text-meats-amber mb-2"></i>
+                                <p class="text-sm text-gray-300 font-medium">Click or Drag & Drop Photos for Gallery</p>
+                                <p class="text-xs text-gray-500 mt-1">Supports JPG, PNG, WEBP</p>
+                                <input type="file" id="fileGallery" accept="image/*" class="hidden" onchange="handleGalleryUpload(event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Admin Pin Verification Modal -->
+    <div id="adminAuthModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full border border-zinc-700 shadow-2xl relative">
+            <button onclick="closeAdminAuth()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-meats-red/20 text-meats-red rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-heading text-2xl font-bold text-white">Owner Access</h3>
+                <p class="text-xs text-gray-400 mt-1">Enter your admin security PIN to unlock changes (Default PIN: <span class="text-meats-amber font-mono">1234</span>)</p>
+            </div>
+            
+            <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="adminPinInput" placeholder="Enter PIN (1234)" class="w-full text-center tracking-widest text-2xl bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-meats-amber" required>
+                </div>
+                <p id="adminPinError" class="text-xs text-red-500 text-center hidden">Invalid PIN code. Please try again.</p>
+                <button type="submit" class="w-full bg-meats-red hover:bg-meats-darkred text-white font-bold py-3 rounded-xl transition">
+                    Unlock Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- Footer -->
+    <footer class="bg-zinc-950 border-t border-zinc-800 text-gray-400 text-sm py-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <span class="font-heading text-xl font-extrabold text-white tracking-wide block mb-2">SAM'S <span class="text-meats-red">MEATS</span></span>
+                <p class="text-xs text-gray-400 leading-relaxed">Your premier local butchery in Khayelitsha, South Africa. Offering fresh, high quality meats, boerewors & custom braai cuts daily.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase text-xs tracking-wider">Quick Navigation</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="switchTab('home')" class="hover:text-meats-amber transition">Home</a></li>
+                    <li><a href="#" onclick="switchTab('about')" class="hover:text-meats-amber transition">About Our Shop</a></li>
+                    <li><a href="#" onclick="switchTab('services')" class="hover:text-meats-amber transition">Meat Cuts & Pricing</a></li>
+                    <li><a href="#" onclick="switchTab('gallery')" class="hover:text-meats-amber transition">Gallery</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase text-xs tracking-wider">Contact Information</h4>
+                <p class="text-xs text-gray-400 mb-1"><i class="fa-solid fa-phone text-meats-red w-5"></i> +27 60 750 4257</p>
+                <p class="text-xs text-gray-400 mb-1"><i class="fa-brands fa-whatsapp text-emerald-400 w-5"></i> +27 60 750 4257</p>
+                <p class="text-xs text-gray-400"><i class="fa-solid fa-location-dot text-meats-amber w-5"></i> Khayelitsha, Cape Town, 7784</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-zinc-900 text-center text-xs text-gray-500">
+            &copy; <span id="currentYear"></span> Sam's Meats Khayelitsha. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // --- DEFAULT DATA FOR INITIAL LOAD ---
+        const DEFAULT_BIZ_INFO = {
+            name: "Sam's Meats",
+            phone: "+27607504257",
+            whatsapp: "+27607504257",
+            address: "Spine Road, Khayelitsha, Cape Town, 7784",
+            subtitle: "Premium beef, pork, poultry, juicy boerewors & custom braai packs straight to your table. Quality you can taste at local prices!",
+            heroImg: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80",
+            logoImg: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=150&q=80",
+            aboutImg: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=1000&q=80"
+        };
+
+        const DEFAULT_PRODUCTS = [
+            {
+                id: "1",
+                title: "Premium T-Bone Steak",
+                category: "Beef",
+                price: "R120 / kg",
+                desc: "Tender, hand-cut T-Bone beef steak perfect for braaing or pan searing.",
+                image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "2",
+                title: "Traditional Farmhouse Boerewors",
+                category: "Sausage",
+                price: "R95 / kg",
+                desc: "Juicy, spiced traditional South African boerewors made daily in-store.",
+                image: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "3",
+                title: "Khayelitsha Family Braai Pack",
+                category: "Braai Packs",
+                price: "R280 / pack",
+                desc: "Includes 1kg Boerewors, 1kg Beef Chops, and 1kg Marinated Chicken Wings.",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "4",
+                title: "Fresh Pork Chops",
+                category: "Pork & Poultry",
+                price: "R85 / kg",
+                desc: "Succulent, freshly trimmed pork chops ready for the grill or oven.",
+                image: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "5",
+                title: "Tender Mutton Chops",
+                category: "Mutton & Lamb",
+                price: "R140 / kg",
+                desc: "Rich, flavorful local mutton chops, perfect for potjiekos or braai.",
+                image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "6",
+                title: "Marinated Chicken Quarter Leg Pack",
+                category: "Pork & Poultry",
+                price: "R65 / kg",
+                desc: "Fresh chicken leg quarters marinated in BBQ or Peri-Peri spices.",
+                image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        const DEFAULT_GALLERY = [
+            "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=600&q=80"
+        ];
+
+        // Global State Variables
+        let bizInfo = {};
+        let products = [];
+        let galleryImages = [];
+        let isAdminUnlocked = false;
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            loadStateFromStorage();
+            renderUI();
+            setupDragAndDrop();
+        });
+
+        // Load or initialize localStorage
+        function loadStateFromStorage() {
+            const storedBiz = localStorage.getItem('sams_meats_biz');
+            const storedProd = localStorage.getItem('sams_meats_products');
+            const storedGal = localStorage.getItem('sams_meats_gallery');
+
+            bizInfo = storedBiz ? JSON.parse(storedBiz) : { ...DEFAULT_BIZ_INFO };
+            products = storedProd ? JSON.parse(storedProd) : [ ...DEFAULT_PRODUCTS ];
+            galleryImages = storedGal ? JSON.parse(storedGal) : [ ...DEFAULT_GALLERY ];
+
+            saveStateToStorage();
+        }
+
+        function saveStateToStorage() {
+            localStorage.setItem('sams_meats_biz', JSON.stringify(bizInfo));
+            localStorage.setItem('sams_meats_products', JSON.stringify(products));
+            localStorage.setItem('sams_meats_gallery', JSON.stringify(galleryImages));
+        }
+
+        // Render UI Elements
+        function renderUI() {
+            // Update Text & Images
+            document.getElementById('heroSubtitle').textContent = bizInfo.subtitle;
+            document.getElementById('heroBanner').style.backgroundImage = `url('${bizInfo.heroImg}')`;
+            document.getElementById('navLogoImg').src = bizInfo.logoImg;
+            document.getElementById('aboutImgDisplay').src = bizInfo.aboutImg;
+            document.getElementById('contactAddressDisplay').textContent = bizInfo.address;
+
+            // WhatsApp / Call Buttons Links
+            const cleanWA = bizInfo.whatsapp.replace(/\+/g, '');
+            const waHref = `https://wa.me/${cleanWA}?text=Hi%20Sam's%20Meats,%20I'm%20interested%20in%20ordering%20fresh%20meats!`;
+            
+            document.getElementById('heroWhatsAppBtn').href = waHref;
+            document.getElementById('heroCallBtn').href = `tel:${bizInfo.phone}`;
+            document.getElementById('contactWhatsAppBtn').href = waHref;
+            document.getElementById('contactWhatsAppBtn').textContent = bizInfo.whatsapp;
+            document.getElementById('contactPhoneBtn').href = `tel:${bizInfo.phone}`;
+            document.getElementById('contactPhoneBtn').textContent = bizInfo.phone;
+
+            // Render Products
+            renderFeaturedProducts();
+            renderFullProducts('All');
+
+            // Render Gallery
+            renderGallery();
+
+            // Populate Admin Form Fields
+            document.getElementById('adminBizName').value = bizInfo.name;
+            document.getElementById('adminPhone').value = bizInfo.phone;
+            document.getElementById('adminWhatsApp').value = bizInfo.whatsapp;
+            document.getElementById('adminAddress').value = bizInfo.address;
+            document.getElementById('adminHeroSubtitle').value = bizInfo.subtitle;
+
+            // Render Admin Product List
+            renderAdminProducts();
+        }
+
+        // Navigation Tab Switching
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected tab
+            const selectedSection = document.getElementById(`section-${tabId}`);
+            if (selectedSection) {
+                selectedSection.classList.remove('hidden');
+            }
+
+            // Mobile menu collapse
+            document.getElementById('mobileMenu').classList.add('hidden');
+
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        // Generate WhatsApp Order Link for Specific Cuts
+        function getWhatsAppProductLink(title, price) {
+            const cleanWA = bizInfo.whatsapp.replace(/\+/g, '');
+            const msg = encodeURIComponent(`Hi Sam's Meats, I would like to enquire about/order: ${title} (${price})`);
+            return `https://wa.me/${cleanWA}?text=${msg}`;
+        }
+
+        // Render Home Featured Cuts
+        function renderFeaturedProducts() {
+            const grid = document.getElementById('featuredProductsGrid');
+            const featured = products.slice(0, 3);
+            
+            grid.innerHTML = featured.map(prod => `
+                <div class="glass-panel rounded-2xl overflow-hidden border border-zinc-800 shadow-xl flex flex-col group hover:border-meats-amber/50 transition duration-300">
+                    <div class="h-52 overflow-hidden relative">
+                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 right-3 bg-meats-red text-white text-xs font-extrabold px-3 py-1 rounded-full uppercase shadow">
+                            ${prod.category}
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-heading font-bold text-lg text-white">${prod.title}</h3>
+                                <span class="text-meats-amber font-extrabold text-base whitespace-nowrap ml-2">${prod.price}</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">${prod.desc}</p>
+                        </div>
+                        <a href="${getWhatsAppProductLink(prod.title, prod.price)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-xl flex items-center justify-center transition shadow">
+                            <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Full Product Catalog
+        function renderFullProducts(category) {
+            const grid = document.getElementById('fullProductsGrid');
+            const filtered = category === 'All' 
+                ? products 
+                : products.filter(p => p.category === category);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400">No items available in this category.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(prod => `
+                <div class="glass-panel rounded-2xl overflow-hidden border border-zinc-800 shadow-xl flex flex-col group hover:border-meats-red/50 transition duration-300">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 right-3 bg-meats-amber text-zinc-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase shadow">
+                            ${prod.category}
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-heading font-bold text-lg text-white">${prod.title}</h3>
+                                <span class="text-meats-amber font-extrabold text-lg whitespace-nowrap ml-2">${prod.price}</span>
+                            </div>
+                            <p class="text-gray-300 text-xs leading-relaxed mb-6">${prod.desc}</p>
+                        </div>
+                        <a href="${getWhatsAppProductLink(prod.title, prod.price)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center transition shadow-lg">
+                            <i class="fa-brands fa-whatsapp text-xl mr-2"></i> Enquire / Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-meats-red', 'text-white');
+                btn.classList.add('bg-zinc-800', 'text-gray-300');
+            });
+
+            event.target.classList.remove('bg-zinc-800', 'text-gray-300');
+            event.target.classList.add('bg-meats-red', 'text-white');
+
+            renderFullProducts(cat);
+        }
+
+        // Render Gallery Grid
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = galleryImages.map((imgUrl, idx) => `
+                <div class="h-48 rounded-xl overflow-hidden glass-panel border border-zinc-800 cursor-pointer group relative" onclick="openLightbox('${imgUrl}')">
+                    <img src="${imgUrl}" alt="Sam's Meats Gallery ${idx + 1}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white">
+                        <i class="fa-solid fa-magnifying-glass-plus text-2xl"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Lightbox Handler
+        function openLightbox(url) {
+            document.getElementById('lightboxImg').src = url;
+            document.getElementById('lightboxCaption').textContent = "Sam's Meats - Fresh Local Cuts & Store Showcase";
+            document.getElementById('galleryLightbox').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('galleryLightbox').classList.add('hidden');
+        }
+
+        // Admin Security & PIN Management
+        function openAdminAuth() {
+            if (isAdminUnlocked) {
+                switchTab('admin');
+            } else {
+                document.getElementById('adminAuthModal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminAuth() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+            document.getElementById('adminPinError').classList.add('hidden');
+        }
+
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('adminPinInput').value;
+            if (pin === '1234') {
+                isAdminUnlocked = true;
+                closeAdminAuth();
+                switchTab('admin');
+                showToast("Admin dashboard unlocked!", "success");
+            } else {
+                document.getElementById('adminPinError').classList.remove('hidden');
+            }
+        }
+
+        // Admin Save Business Details
+        function saveBusinessDetails(e) {
+            e.preventDefault();
+            bizInfo.name = document.getElementById('adminBizName').value;
+            bizInfo.phone = document.getElementById('adminPhone').value;
+            bizInfo.whatsapp = document.getElementById('adminWhatsApp').value;
+            bizInfo.address = document.getElementById('adminAddress').value;
+            bizInfo.subtitle = document.getElementById('adminHeroSubtitle').value;
+
+            saveStateToStorage();
+            renderUI();
+            showToast("Business details updated successfully!", "success");
+        }
+
+        // Admin Add / Edit Product
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prodId').value;
+            const title = document.getElementById('prodTitle').value;
+            const category = document.getElementById('prodCategory').value;
+            const price = document.getElementById('prodPrice').value;
+            const desc = document.getElementById('prodDesc').value;
+            let image = document.getElementById('prodImgUrl').value;
+
+            if (!image) {
+                image = "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80";
+            }
+
+            if (id) {
+                // Update Existing
+                const idx = products.findIndex(p => p.id === id);
+                if (idx !== -1) {
+                    products[idx] = { id, title, category, price, desc, image };
+                    showToast("Product updated!", "success");
+                }
+            } else {
+                // Add New
+                const newProd = {
+                    id: Date.now().toString(),
+                    title,
+                    category,
+                    price,
+                    desc,
+                    image
+                };
+                products.push(newProd);
+                showToast("New product cut added!", "success");
+            }
+
+            saveStateToStorage();
+            renderUI();
+            resetProductForm();
+        }
+
+        function editProduct(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            document.getElementById('prodId').value = prod.id;
+            document.getElementById('prodTitle').value = prod.title;
+            document.getElementById('prodCategory').value = prod.category;
+            document.getElementById('prodPrice').value = prod.price;
+            document.getElementById('prodDesc').value = prod.desc;
+            document.getElementById('prodImgUrl').value = prod.image;
+
+            document.getElementById('productFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-meats-amber mr-2"></i> Edit Cut: ${prod.title}`;
+            window.scrollTo({ top: document.getElementById('productForm').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Are you sure you want to delete this meat product?")) {
+                products = products.filter(p => p.id !== id);
+                saveStateToStorage();
+                renderUI();
+                showToast("Product deleted.", "info");
+            }
+        }
+
+        function resetProductForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('prodId').value = '';
+            document.getElementById('productFormTitle').innerHTML = `<i class="fa-solid fa-plus-circle text-meats-amber mr-2"></i> Add New Cut / Meat Service`;
+        }
+
+        // Render Admin Products
+        function renderAdminProducts() {
+            const container = document.getElementById('adminProductList');
+            document.getElementById('prodCount').textContent = products.length;
+
+            container.innerHTML = products.map(prod => `
+                <div class="flex items-center justify-between p-3 bg-zinc-900 border border-zinc-800 rounded-xl">
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <img src="${prod.image}" alt="${prod.title}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+                        <div class="truncate">
+                            <h4 class="font-bold text-white text-sm truncate">${prod.title}</h4>
+                            <p class="text-xs text-meats-amber">${prod.price} • <span class="text-gray-400">${prod.category}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-shrink-0">
+                        <button onclick="editProduct('${prod.id}')" class="p-2 text-meats-amber hover:bg-zinc-800 rounded-lg text-xs">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button onclick="deleteProduct('${prod.id}')" class="p-2 text-red-400 hover:bg-zinc-800 rounded-lg text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // File Upload Handlers (Base64 Storage for Offline Persistence)
+        function triggerFileInput(id) {
+            document.getElementById(id).click();
+        }
+
+        function handleImageUpload(e, target) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const base64Img = evt.target.result;
+                if (target === 'logo') bizInfo.logoImg = base64Img;
+                if (target === 'hero') bizInfo.heroImg = base64Img;
+                if (target === 'about') bizInfo.aboutImg = base64Img;
+
+                saveStateToStorage();
+                renderUI();
+                showToast(`New ${target} image uploaded and saved!`, "success");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleProductImageFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                document.getElementById('prodImgUrl').value = evt.target.result;
+                showToast("Product image loaded!", "info");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleGalleryUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                galleryImages.unshift(evt.target.result);
+                saveStateToStorage();
+                renderUI();
+                showToast("Photo added to gallery!", "success");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Setup Drag & Drop listeners
+        function setupDragAndDrop() {
+            const zones = [
+                { id: 'dzLogo', target: 'logo' },
+                { id: 'dzHero', target: 'hero' },
+                { id: 'dzAbout', target: 'about' }
+            ];
+
+            zones.forEach(zone => {
+                const el = document.getElementById(zone.id);
+                if (!el) return;
+
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    el.addEventListener(eventName, preventDefaults, false);
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    el.addEventListener(eventName, () => el.classList.add('dragover'), false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    el.addEventListener(eventName, () => el.classList.remove('dragover'), false);
+                });
+
+                el.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    if (files.length > 0) {
+                        const reader = new FileReader();
+                        reader.onload = function(evt) {
+                            const base64 = evt.target.result;
+                            if (zone.target === 'logo') bizInfo.logoImg = base64;
+                            if (zone.target === 'hero') bizInfo.heroImg = base64;
+                            if (zone.target === 'about') bizInfo.aboutImg = base64;
+
+                            saveStateToStorage();
+                            renderUI();
+                            showToast(`${zone.target} image updated!`, "success");
+                        };
+                        reader.readAsDataURL(files[0]);
+                    }
+                }, false);
+            });
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Reset to Default Store Data
+        function resetDefaultData() {
+            if (confirm("Reset website data back to initial defaults?")) {
+                bizInfo = { ...DEFAULT_BIZ_INFO };
+                products = [ ...DEFAULT_PRODUCTS ];
+                galleryImages = [ ...DEFAULT_GALLERY ];
+                saveStateToStorage();
+                renderUI();
+                showToast("Store data reset to default.", "info");
+            }
+        }
+
+        // Toast Notifications Handler
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'success' ? 'bg-emerald-600' : 'bg-meats-red';
+            toast.className = `${bgColor} text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all transform translate-y-2 opacity-0 pointer-events-auto`;
+            
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-info'}"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
